@@ -1,12 +1,11 @@
-﻿using System.Collections;
-
+﻿
 namespace PokemonReviewApp.Models
 {
 
     public class Reviewer
     {
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string FirstName { get; set; }
 
@@ -15,5 +14,5 @@ namespace PokemonReviewApp.Models
         public ICollection<Review> Reviews { get; set; }
 
 
-
+    }
     }

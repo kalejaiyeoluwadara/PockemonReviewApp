@@ -1,4 +1,4 @@
-namespace PockemonReviewApp;
+namespace PokemonReviewApp;
 
 public class WeatherForecast
 {

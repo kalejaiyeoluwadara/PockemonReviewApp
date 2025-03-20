@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace PockemonReviewApp.Controllers;
+namespace PokemonReviewApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
