@@ -22,7 +22,7 @@ namespace PokemonReviewApp.Repository
             return _context.Pokemon.Where(p => p.Name == name).FirstOrDefault();
         }
 
-        public decimal GetpokemonRating(int pokeId)
+        public decimal GetPokemonRating(int pokeId)
         {
             var review = _context.Reviews.Where(p => p.Pokemon.Id == pokeId);
 
@@ -33,6 +33,8 @@ namespace PokemonReviewApp.Repository
 
             return ((decimal)review.Sum(r => r.Rating) / review.Count());
         }
+
+       
 
         public ICollection<Pokemon> GetPokemons()
         {
