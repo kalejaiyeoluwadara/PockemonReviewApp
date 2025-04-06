@@ -27,5 +27,51 @@ namespace PokemonReviewApp.Controllers
 
             return Ok(pokemons);
         }
+
+
+        [HttpGet("{pokeId}")]
+        [ProducesResponseType(200, Type = typeof(Pokemon))]
+        [ProducesResponseType(400)]
+        public IActionResult GetPokemon(int pokeId)
+        {
+            if (!_pokemonRepository.PokemonExists(pokeId))
+            {
+                return NotFound();
+            }
+
+            var pokemon = _pokemonRepository.GetPokemon(pokeId);
+            return Ok(pokemon);
+        }
+
+        [HttpGet("{pokeId}")]
+        [ProducesResponseType(200, Type = typeof(Pokemon))]
+        [ProducesResponseType(400)]
+        public IActionResult GetPokemon(string name)
+        {
+            if (!_pokemonRepository.PokemonExists(name))
+            {
+                return NotFound();
+            }
+
+            var pokemon = _pokemonRepository.GetPokemon(name);
+            return Ok(pokemon);
+        }
+
+        [HttpGet("{pokeId}/rating")]
+        [ProducesResponseType(200, Type = typeof(decimal))]
+        [ProducesResponseType(400)]
+        public IActionResult GetPokemonRating(int pokeId)
+        {
+            if (!_pokemonRepository.PokemonExists(pokeId))
+            {
+                return NotFound();
+            }
+
+            var rating = _pokemonRepository.GetPokemonRating(pokeId);
+            return Ok(rating);
+        }
+
     }
+
+    
 }
