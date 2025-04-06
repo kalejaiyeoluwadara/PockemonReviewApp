@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp;
 using PokemonReviewApp.Data;
@@ -14,9 +15,21 @@ builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<DataContext>( options =>
+
+
+builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    var useSqlite = builder.Configuration.GetValue<bool>("UseSqlite");
+
+    if (useSqlite)
+    {
+     options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection") ??
+                "Data Source=blog.db");
+    }
+    else
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    }
 });
 
 var app = builder.Build();
