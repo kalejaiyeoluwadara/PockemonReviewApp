@@ -1,11 +1,9 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp;
 using PokemonReviewApp.Data;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Repository;
 using Scalar.AspNetCore;
-using AutoMapper;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
