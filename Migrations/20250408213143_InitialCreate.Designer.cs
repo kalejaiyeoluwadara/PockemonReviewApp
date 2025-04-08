@@ -11,7 +11,7 @@ using PokemonReviewApp.Data;
 namespace PokemonReviewApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250406222210_InitialCreate")]
+    [Migration("20250408213143_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -47,7 +47,7 @@ namespace PokemonReviewApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("PokemonReviewApp.Models.Owner", b =>
@@ -132,7 +132,7 @@ namespace PokemonReviewApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PokemonId")
+                    b.Property<int>("PokemonId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Rating")
@@ -228,15 +228,19 @@ namespace PokemonReviewApp.Migrations
 
             modelBuilder.Entity("PokemonReviewApp.Models.Review", b =>
                 {
-                    b.HasOne("PokemonReviewApp.Models.Pokemon", null)
+                    b.HasOne("PokemonReviewApp.Models.Pokemon", "Pokemon")
                         .WithMany("Reviews")
-                        .HasForeignKey("PokemonId");
+                        .HasForeignKey("PokemonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PokemonReviewApp.Models.Reviewer", "Reviewer")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Pokemon");
 
                     b.Navigation("Reviewer");
                 });
