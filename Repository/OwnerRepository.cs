@@ -29,7 +29,7 @@ namespace PokemonReviewApp.Repository
 
         public ICollection<Pokemon> GetPokemonByOwner(int ownerId)
         {
-            return _context.PokemonOwners.Where(p => p.OwnerId == ownerId).Select(p => p.Pokemon).ToList();
+            return _context.PokemonOwners.Where(p => p.OwnernerId == ownerId).Select(p => p.Pokemon).ToList();
         }
 
         public bool OwnerExists(int ownerId)
