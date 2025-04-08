@@ -1,6 +1,10 @@
 @PockemonReviewApp_HostAddress = http://localhost:5007
 
-GET {{PockemonReviewApp_HostAddress}}/weatherforecast/
+# GET {{PockemonReviewApp_HostAddress}}/weatherforecast/
+# Accept: application/json
+
+GET {{PockemonReviewApp_HostAddress}}/pokemon
 Accept: application/json
 
-###
+GET {{PockemonReviewApp_HostAddress}}/category
+Accept: application/json
