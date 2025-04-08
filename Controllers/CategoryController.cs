@@ -19,16 +19,18 @@ namespace PokemonReviewApp.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         public IActionResult GetCategories()
         {
             var categories = _mapper.Map<List<CategoryDto>>(_categoryRepository.GetCategories());
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             return Ok(categories);
         }
+
 
         [HttpGet("{categoryId}")]
         [ProducesResponseType(200, Type = typeof(Category))]

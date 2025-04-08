@@ -23,6 +23,8 @@ namespace PokemonReviewApp.Data
 
         public DbSet<Reviewer> Reviewers { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PokemonCategory>()
@@ -46,6 +48,10 @@ namespace PokemonReviewApp.Data
                .HasOne(p => p.Owner)
                .WithMany(pc => pc.PokemonOwners)
                .HasForeignKey(c => c.OwnernerId);
+
+            modelBuilder.Entity<Country>()
+                .HasMany(o => o.Owners)
+                .WithOne(c => c.Country);
         }
 
 
