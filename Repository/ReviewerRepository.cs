@@ -21,6 +21,11 @@ namespace PokemonReviewApp.Repository
             return _context.Reviewers.Where(r => r.FirstName.ToLower() == reviewerName.ToLower()).FirstOrDefault();
         }
 
+        public ICollection<Review> GetReviewsByAReviewer(int reviewerId)
+        {
+            return _context.Reviews.Where(r => r.Reviewer.Id == reviewerId).ToList();
+        }
+
         public ICollection<Reviewer> GetReviewers()
         {
             
