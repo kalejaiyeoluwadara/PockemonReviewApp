@@ -48,6 +48,9 @@ namespace PokemonReview.Controllers
             if (!_reviewRepository.ReviewExists(reviewId))
                 return NotFound();
             var reviews = _reviewRepository.GetReviewsOfAPokemon(reviewId);
+
+            if(!ModelState.IsValid)
+                return BadRequest();
             return Ok(reviews);
         }
     }
