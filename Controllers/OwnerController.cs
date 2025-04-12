@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
@@ -50,6 +51,32 @@ namespace PokemonReviewApp.Controllers
             var pokemon = _mapper.Map<List<PokemonDto>>(_ownerRepository.GetPokemonByOwner(ownerId));
             return Ok(pokemon);
         }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateOwner([FromBody] OwnerDto createOwner ){
+            if(createOwner == null){
+                return BadRequest(ModelState);
+            }
+
+            var ownerExist = _ownerRepository.GetOwners().Where(owner=>owner.FirstName.ToUpper() == createOwner.FirstName.TrimEnd().ToUpper()).FirstOrDefault();
+            if(ownerExist != null){
+                ModelState.AddModelError("","Owner already exists");
+                return StatusCode(422,ModelState);
+            }
+
+            var owner = _mapper.Map<Owner>(createOwner);
+            var success = _ownerRepository.CreateOwner(owner);
+
+            if(!success){
+                ModelState.AddModelError("","Error occured while create owner");
+                return StatusCode(500,ModelState);
+            }
+
+            return Ok("Owner created Successfully");
+
+        } 
         
     }
         
