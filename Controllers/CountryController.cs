@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
@@ -51,6 +52,34 @@ namespace PokemonReviewApp.Controllers
             return Ok(country);
         }
         
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCategory([FromBody] CountryDto createCountry){
+            if(createCountry == null){
+                return BadRequest(ModelState);
+            }
+
+            var countryExist = _countryRepository.GetCountries().Where(country=>country.Name.ToUpper() == createCountry.Name.TrimEnd().ToUpper()).FirstOrDefault();
+
+            if(countryExist != null){
+                ModelState.AddModelError("","Country already exists");
+                return StatusCode(422,ModelState);
+            }
+
+            var country = _mapper.Map<Country>(createCountry);
+            var createSuccess = _countryRepository.CreateCountry(country);
+
+            if(!createSuccess)
+            {
+                ModelState.AddModelError("","An error occured while saving country");
+                return StatusCode(500,ModelState);
+            }
+
+            return Ok("Successfully created Country");
+            
+
+        }
 
     }
 }
