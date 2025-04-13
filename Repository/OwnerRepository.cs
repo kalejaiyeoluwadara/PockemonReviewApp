@@ -45,8 +45,8 @@ namespace PokemonReviewApp.Repository
 
         public bool Save()
         {
-            var save = _context.SaveChanges();
-            return save > 0 ? true : false;
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
 
         }
     }
