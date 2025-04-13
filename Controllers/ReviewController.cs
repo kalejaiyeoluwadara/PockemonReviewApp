@@ -12,10 +12,14 @@ namespace PokemonReview.Controllers
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
+        private readonly IPokemonRepository _pokemonRepository;
+        private readonly IReviewerRepository _reviewerRepository;
 
-        public ReviewController(IReviewRepository reviewRepository, IMapper mapper)
+        public ReviewController(IReviewRepository reviewRepository, IMapper mapper, IPokemonRepository pokemonRepository, IReviewerRepository reviewerRepository)
         {
             _reviewRepository = reviewRepository;
+            _pokemonRepository = pokemonRepository;
+            _reviewerRepository = reviewerRepository;
             _mapper = mapper;
         }
 
@@ -70,6 +74,8 @@ namespace PokemonReview.Controllers
             }
 
             var review = _mapper.Map<Review>(createReview);
+            review.Pokemon = _pokemonRepository.GetPokemon(pokemonId);
+            review.Reviewer = _reviewerRepository.GetReviewer(reviewerId);
             var success = _reviewRepository.CreateReview(review);
 
             if(!success){
