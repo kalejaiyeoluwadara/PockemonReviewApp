@@ -12,12 +12,12 @@ namespace PokemonReviewApp.Controllers
     public class PokemonController : Controller
     {
         private readonly IPokemonRepository _pokemonRepository;
-        private readonly IReviewRepository _reviewerRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
         public PokemonController(IPokemonRepository pokemonRepository,IReviewRepository reviewRepository, DataContext context, IMapper mapper)
         {
             this._pokemonRepository = pokemonRepository;
-            this._reviewerRepository = reviewRepository;
+            this._reviewRepository = reviewRepository;
             this._mapper = mapper;
         }
 
@@ -121,9 +121,38 @@ namespace PokemonReviewApp.Controllers
             }
 
             return Ok("Owner updated Successfully");
-
-
     }
+
+            
+            [HttpDelete("{pokeId}")]
+            [ProducesResponseType(200)]
+            [ProducesResponseType(400)]
+            [ProducesResponseType(404)]
+            public IActionResult DeletePokemon(int pokeId){
+                if(!_pokemonRepository.PokemonExists(pokeId)){
+                    return NotFound();
+                }
+    
+                var reviewsToDelete = _reviewRepository.GetReviewsOfAPokemon(pokeId).ToList();
+
+                var pokemon = _pokemonRepository.GetPokemon(pokeId);
+
+                if(!ModelState.IsValid){
+                    return BadRequest(ModelState);
+                }
+
+                if(!_reviewRepository.DeleteReviews(reviewsToDelete)){
+                    ModelState.AddModelError("","Error occured while deleting reviews");
+                    return StatusCode(500,ModelState);
+                }
+
+                if(!_pokemonRepository.DeletePokemon(pokemon)){
+                    ModelState.AddModelError("","Error occured while deleting pokemon");
+                    return StatusCode(500,ModelState);
+                }
+    
+                return Ok("Successfully Deleted Pokemon");
+            }
     }
 
     
