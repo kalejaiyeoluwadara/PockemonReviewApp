@@ -19,6 +19,11 @@ namespace PokemonReviewApp.Repository
            return Save();
         }
 
+        public bool DeleteReview(Review review)
+        {
+            throw new NotImplementedException();
+        }
+
         public Review GetReview(int id)
         {
             return _context.Reviews.Where(r => r.Id == id).FirstOrDefault();
@@ -43,6 +48,11 @@ namespace PokemonReviewApp.Repository
         {
             var _saved = _context.SaveChanges();
             return _saved > 0 ? true : false;
+        }
+
+        public bool UpdateReview(Review review)
+        {
+            throw new NotImplementedException();
         }
     }
 }

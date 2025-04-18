@@ -80,6 +80,31 @@ namespace PokemonReviewApp.Controllers
             return Ok("Owner created Successfully");
 
         } 
+
+
+        [HttpPut("{ownerId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateOwner(int ownerId, [FromBody] OwnerDto updateOwner){
+            if(updateOwner == null){
+                return BadRequest(ModelState);
+            }
+
+            if(ownerId != updateOwner.Id){
+                return BadRequest(ModelState);
+            }
+
+            var owner = _mapper.Map<Owner>(updateOwner);
+            var success = _ownerRepository.UpdateOwner(owner);
+
+            if(!success){
+                ModelState.AddModelError("","Error occured while updating owner");
+                return StatusCode(500,ModelState);
+            }
+
+            return Ok("Update Successfuly");
+        }
         
     }
         

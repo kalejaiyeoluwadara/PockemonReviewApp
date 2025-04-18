@@ -12,10 +12,12 @@ namespace PokemonReviewApp.Controllers
     public class PokemonController : Controller
     {
         private readonly IPokemonRepository _pokemonRepository;
+        private readonly IReviewRepository _reviewerRepository;
         private readonly IMapper _mapper;
-        public PokemonController(IPokemonRepository pokemonRepository, DataContext context, IMapper mapper)
+        public PokemonController(IPokemonRepository pokemonRepository,IReviewRepository reviewRepository, DataContext context, IMapper mapper)
         {
             this._pokemonRepository = pokemonRepository;
+            this._reviewerRepository = reviewRepository;
             this._mapper = mapper;
         }
 
@@ -96,6 +98,32 @@ namespace PokemonReviewApp.Controllers
 
         } 
 
+        [HttpPut("{pokeId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdatePokemon( int pokeId, [FromQuery] int catId, [FromQuery] int ownerId,  [FromBody] PokemonDto updatePokemon){
+            if(updatePokemon == null){
+                return BadRequest(ModelState);
+            }
+
+            if(pokeId != updatePokemon.Id){
+                return BadRequest(ModelState);
+            }
+
+            var pokemon = _mapper.Map<Pokemon>(updatePokemon);
+
+            var success = _pokemonRepository.UpdatePokemon(ownerId,catId,pokemon);
+
+            if(!success){
+                ModelState.AddModelError("","Error occured while updating owner");
+                return StatusCode(500,ModelState);
+            }
+
+            return Ok("Owner updated Successfully");
+
+
+    }
     }
 
     
