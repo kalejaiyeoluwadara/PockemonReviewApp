@@ -52,7 +52,8 @@ namespace PokemonReviewApp.Repository
 
         public bool UpdateReview(Review review)
         {
-            throw new NotImplementedException();
+            _context.Update(review);
+            return Save();
         }
     }
 }
