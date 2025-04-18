@@ -15,7 +15,7 @@ namespace PokemonReviewApp.Repository
         {
             return _context.Reviewers.Where(r => r.Id == reviewerId).FirstOrDefault();
         }
-
+        
         public Reviewer GetReviewer(string reviewerName)
         {
             return _context.Reviewers.Where(r => r.FirstName.ToLower() == reviewerName.ToLower()).FirstOrDefault();
