@@ -12,6 +12,7 @@ namespace PokemonReviewApp.Interfaces
         bool UpdateReview(Review review);
         bool DeleteReview(Review review);
         bool DeleteReviews(List<Review> reviews);
+        
         bool Save();
     }
 }
